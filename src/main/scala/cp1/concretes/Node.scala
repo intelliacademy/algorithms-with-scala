@@ -5,14 +5,13 @@ import java.lang.Comparable
 
 class Node[T <: Comparable[T]] extends Comparable[Node[T]] {
 
-  def this(value: T) {
+  def this(value: T) = {
     this()
-    this.value = value
   }
   
   
   def compareTo(o: Node[T]): Int = {
-    
+    65
   }
 }
 
