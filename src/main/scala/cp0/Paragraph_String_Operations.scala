@@ -29,4 +29,26 @@ object Paragraph_String_Operations extends App {
   println("Replace 'a' with 'A' all occurrences: " + str.replaceAll("a", "A"))
   println("Lower case: " + str.toLowerCase)
   println("Upper case: " + str.toUpperCase)
+  println("Trim: " + "  Hello, World!  ".trim)
+  println("Reverse: " + str.reverse)
+  println("Concatenate: " + str.concat(" I am concatenated"))
+  println("Concatenate: " + str + " I am concatenated")
+
+
+
+  var numberString: String = "12345"
+  var numberExp: Int = numberString.toInt
+  println('a' +: numberString :+ 'z') // prepend and append operations
+
+
+  println("-" * 50)
+  println("Scala Specific : String Interpolation and Formatting")
+  println("-" * 50)
+  var exampleString: String = "Hello World from Scala Programming Language !"
+  println(s"String: $exampleString")
+  println(s"String toUpperCase ${exampleString.toUpperCase}")
+  println(s"String take 5 ${exampleString.take(5)}")
+  println(s"String drop 5 ${exampleString.drop(5)}")
+  println(s"String dropRight 5 ${exampleString.dropRight(5)}")
+  println(s"String indexOf 'W' ${exampleString.indexOf('W')}")
 }
