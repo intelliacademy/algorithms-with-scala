@@ -44,11 +44,35 @@ object Paragraph_String_Operations extends App {
   println("-" * 50)
   println("Scala Specific : String Interpolation and Formatting")
   println("-" * 50)
+  println("S - String Interpolation")
   var exampleString: String = "Hello World from Scala Programming Language !"
+  var exmapleNumber: Int = 100
   println(s"String: $exampleString")
   println(s"String toUpperCase ${exampleString.toUpperCase}")
   println(s"String take 5 ${exampleString.take(5)}")
   println(s"String drop 5 ${exampleString.drop(5)}")
   println(s"String dropRight 5 ${exampleString.dropRight(5)}")
   println(s"String indexOf 'W' ${exampleString.indexOf('W')}")
+  println(s"String indexOfSlice 'World' ${exampleString.indexOfSlice("World")}")
+  println(s"String number ${exmapleNumber + 100}")
+
+  println("-" * 50)
+  println("Scala Specific : String Interpolation and Formatting")
+  println("-" * 50)
+  println("F - String Interpolation")
+  var exampleStringF: String = "Hello World from Scala Programming Language !"
+  var exmapleNumberF: Double = 100.123456
+  println(f"String: $exampleStringF%s")
+  println(f"Number: $exmapleNumberF%.3f")
+  printf("Print F Number: %.3f\n", exmapleNumberF)
+
+
+  println("-" * 50)
+  println("Scala Specific : String Interpolation and Formatting")
+  println("-" * 50)
+  println("Raw - String Interpolation")
+  var exampleStringRaw: String = "Hello World \n from Scala Programming Language !"
+  println(raw"This is a \n new line")
+  println(s"$exampleStringRaw")
+  println(raw"$exampleStringRaw")
 }
