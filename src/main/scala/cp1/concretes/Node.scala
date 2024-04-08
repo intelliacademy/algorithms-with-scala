@@ -2,13 +2,17 @@ package com.intellibucket.lessons
 package cp1.concretes
 
 import java.lang.Comparable
-import scala.annotation.targetName
+import scala.annotation.{tailrec, targetName}
 
-class Node[T <: Comparable[T]](val value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
+class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
 
   def this(value:T) = this(value,null,null)
 
   override def compareTo(o: Node[T]): Int = this.value.compareTo(o.value)
+
+  def max: Node[T] = if(this.hasRight) this.right.max else this
+
+  def min: Node[T] = if(this.hasLeft) this.left.min else this
 
   def isLeaf: Boolean = left == null && right == null
 
@@ -33,7 +37,7 @@ class Node[T <: Comparable[T]](val value:T,var left: Node[T],var right: Node[T])
   def isLessOrEquals(o: Node[T]): Boolean = this.compareTo(o) <= 0
 
   def isLeafOrHalf: Boolean = isLeaf || isHalf
-  
+
   @targetName("insertNode")
   def +(node: Node[T]): Node[T] = {
     if(this.isNil) node
@@ -47,6 +51,30 @@ class Node[T <: Comparable[T]](val value:T,var left: Node[T],var right: Node[T])
     }
     this
   }
+
+  @targetName("deleteNode")
+  def -(node: Node[T]): Node[T] = {
+    if(this.isNil) this
+    else if(this.isEquals(node)) {
+      if(this.isLeaf) NilNode[T]
+      else if(this.hasBoth) {
+        val successor = this.right.min
+        this.value = successor.value
+        this.right = this.right - successor
+      }
+      else if(this.hasLeft) this.left
+      else this.right
+    }
+    else if(this.isGreaterThan(node)) {
+      this.left = this.left - node
+    }
+    else if(this.isLessThan(node)) {
+      this.right = this.right - node
+    }
+    this
+  }
+
+
 
 }
 
