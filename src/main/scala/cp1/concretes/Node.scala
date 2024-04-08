@@ -2,6 +2,7 @@ package com.intellibucket.lessons
 package cp1.concretes
 
 import java.lang.Comparable
+import scala.annotation.targetName
 
 class Node[T <: Comparable[T]](val value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
 
@@ -32,6 +33,20 @@ class Node[T <: Comparable[T]](val value:T,var left: Node[T],var right: Node[T])
   def isLessOrEquals(o: Node[T]): Boolean = this.compareTo(o) <= 0
 
   def isLeafOrHalf: Boolean = isLeaf || isHalf
+  
+  @targetName("insertNode")
+  def +(node: Node[T]): Node[T] = {
+    if(this.isNil) node
+    else if(this.isGreaterThan(node)) {
+      if(this.hasLeft) this.left = this.left + node
+      else this.left = node
+    }
+    else if(this.isLessThan(node)) {
+      if(this.hasRight) this.right = this.right + node
+      else this.right = node
+    }
+    this
+  }
 
 }
 
