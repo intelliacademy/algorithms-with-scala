@@ -6,7 +6,7 @@ import scala.annotation.{tailrec, targetName}
 
 class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
 
-  def this(value:T) = this(value,null,null)
+  def this(value:T) = this(value,NilNode,NilNode)
 
   override def compareTo(o: Node[T]): Int = this.value.compareTo(o.value)
 
@@ -14,17 +14,17 @@ class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T])
 
   def min: Node[T] = if(this.hasLeft) this.left.min else this
 
-  def isLeaf: Boolean = left == null && right == null
+  def isLeaf: Boolean = left isInstanceOf[NilNode[T]] && right isInstanceOf[NilNode[T]]
 
-  def isHalf: Boolean = left != null ^ right != null
+  def isHalf: Boolean = left !isInstanceOf[NilNode[T]] ^ right !isInstanceOf[NilNode[T]]
 
   def isNil: Boolean = this.isInstanceOf[NilNode[T]]
 
-  def hasLeft: Boolean = left != null
+  def hasLeft: Boolean = left !isInstanceOf[NilNode[T]]
 
-  def hasRight: Boolean = right != null
+  def hasRight: Boolean = right !isInstanceOf[NilNode[T]]
 
-  def hasBoth: Boolean = left != null && right != null
+  def hasBoth: Boolean = left !isInstanceOf[NilNode[T]] && right !isInstanceOf[NilNode[T]]
 
   def isGreaterThan(o: Node[T]): Boolean = this.compareTo(o) > 0
 
