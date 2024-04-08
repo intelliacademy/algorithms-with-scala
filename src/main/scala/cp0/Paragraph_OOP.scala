@@ -21,7 +21,10 @@ object Paragraph_OOP extends App {
 
   println(1.+(2))
    println(!task2)
-   println(task2 isFree)
+   println( task2 isFree)
+    println(task2)
+    task4.execute()
+   task4.someDoIt("Lin", "the park")
 
 
   class Task(val name: String, var priority: Int) {
@@ -45,10 +48,30 @@ object Paragraph_OOP extends App {
       true
     }
 
+    @targetName("incrementPriority")
+    def unary_++ : Task = {
+      new Task(this.name, this.priority + 1)
+    }
+
+
+    @targetName("decrementPriority")
+    def unary_-- : Task = {
+      new Task(this.name, this.priority - 1)
+    }
+
+    @targetName("isFreePlus")
+    def unary_!+ : Boolean = {
+      !isFree
+    }
+
     @targetName("isNotFree")
     def unary_! : Boolean = !isFree
-    
 
+    def execute(): Unit = this walkTo "execute"
+    
+    def someDoIt(name: String, target: String): Unit = {
+      println(s"$name is walking to $target")
+    }
   }
 
 
