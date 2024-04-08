@@ -74,8 +74,11 @@ class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T])
     this
   }
 
+}
 
-
+object Node{
+  def apply[T <: Comparable[T]](value:T) = new Node[T](value)
+  def apply[T <: Comparable[T]](value:T,left:Node[T],right:Node[T]): Node[T] =  new Node[T](value,left,right)
 }
 
 class NilNode[T <: Comparable[T]] extends Node[T](null.asInstanceOf[T],null,null) {
