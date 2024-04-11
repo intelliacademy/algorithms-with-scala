@@ -40,7 +40,7 @@ object Node {
   def apply[T <: Comparable[T]](value:T): Node[T] = if (value == null) NilNode[T] else new Node[T](value)
 }
 
-class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
+case class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
 
   def this(value:T) = this(value,NilNode[T],NilNode[T])
 
