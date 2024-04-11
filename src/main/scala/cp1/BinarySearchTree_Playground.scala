@@ -5,7 +5,7 @@ import cp1.concretes.BinarySearchTree
 
 import scala.language.postfixOps
 
-object BinarySearchTree_Chapter extends App {
+object BinarySearchTree_Playground extends App {
 
   class Person(val name: String, val age: Int) extends Comparable[Person] {
     override def compareTo(o: Person): Int = {
