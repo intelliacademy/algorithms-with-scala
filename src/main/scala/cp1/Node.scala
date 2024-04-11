@@ -18,17 +18,17 @@ class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T])
 
   def min: Node[T] = if(this.hasLeft) this.left.min else this
 
-  def isLeaf: Boolean = left isInstanceOf[NilNode[T]] && right isInstanceOf[NilNode[T]]
+  def isLeaf: Boolean = left.isInstanceOf[NilNode[T]] && right.isInstanceOf[NilNode[T]]
 
-  def isHalf: Boolean = left !isInstanceOf[NilNode[T]] ^ right !isInstanceOf[NilNode[T]]
+  def isHalf: Boolean = !left.isInstanceOf[NilNode[T]] ^ !right.isInstanceOf[NilNode[T]]
 
   def isNil: Boolean = this.isInstanceOf[NilNode[T]]
 
-  def hasLeft: Boolean = left !isInstanceOf[NilNode[T]]
+  def hasLeft: Boolean = !left.isInstanceOf[NilNode[T]]
 
-  def hasRight: Boolean = right !isInstanceOf[NilNode[T]]
+  def hasRight: Boolean = !right.isInstanceOf[NilNode[T]]
 
-  def hasBoth: Boolean = left !isInstanceOf[NilNode[T]] && right !isInstanceOf[NilNode[T]]
+  def hasBoth: Boolean = !left.isInstanceOf[NilNode[T]] && !right.isInstanceOf[NilNode[T]]
 
   def isGreaterThan(o: Node[T]): Boolean = this.compareTo(o) > 0
 
