@@ -5,7 +5,7 @@ import java.lang.Comparable
 import scala.annotation.{tailrec, targetName}
 
 object Node {
-  def apply[T <: Comparable[T]](value:T) = if (value == null) NilNode[T] else new Node[T](value)
+  def apply[T <: Comparable[T]](value:T): Node[T] = if (value == null) NilNode[T] else new Node[T](value)
 }
 
 class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]] {
@@ -42,13 +42,13 @@ class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T])
 
   def isLeafOrHalf: Boolean = isLeaf || isHalf
 
-  override def toString(): String = {
+  override def toString: String = {
     s"Node($value) ->  Left(${left.value}) Right(${right.value}) "
   }
 
   @targetName("insertNode")
   def +(node: Node[T]): Unit = {
-    if (node.isGreaterThan(this)) {
+    if (node.isLessOrEquals(this)) {
       if (this.hasLeft)  this.left + node
       else this.left = node
     }
@@ -84,6 +84,8 @@ class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T])
 
 }
 
+object NilNode {}
+
 class NilNode[T <: Comparable[T]] extends Node[T](null.asInstanceOf[T],null,null) {
 
   override def compareTo(o: Node[T]): Int = {
@@ -116,6 +118,3 @@ class NilNode[T <: Comparable[T]] extends Node[T](null.asInstanceOf[T],null,null
   override def toString(): String = "NilNode"
 }
 
-object NilNode {
-  def apply[T <: Comparable[T]] = new NilNode[T]
-}
