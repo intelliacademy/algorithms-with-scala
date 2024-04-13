@@ -36,21 +36,17 @@ trait GList[+A] {
   def head: A
   def tail: GList[A]
   def prepend[B >: A](elem: B): SequencedList[B]
-  def filter(p: GPredicate[A]): GList[A] = {
-    if (isEmpty) this
-    else if (p.test(head)) prepend(head).filter(p)
-    else tail.filter(p)
-  }
-  def map[B](f: GFunction[A, B]): GList[B] 
+  def filter(p: GPredicate[A]): GList[A]
+  def map[B](f: GFunction[A, B]): GList[B]
   def forEach(f: GConsumer[A]): Unit
 }
 
 case class SequencedList[+A](value: A,next: GList[A]) extends GList[A] {
-  
+
   def this(value: A) = this(value, EmptyList)
-  
+
   def this() = this(null.asInstanceOf[A], EmptyList)
-  
+
   def this(next: GList[A]) = this(null.asInstanceOf[A], next)
 
   override def isEmpty: Boolean = false
@@ -60,13 +56,22 @@ case class SequencedList[+A](value: A,next: GList[A]) extends GList[A] {
   override def tail: GList[A] = this.next
 
   override def prepend[B >: A](elem: B): SequencedList[B] = SequencedList(elem, this)
-  
+
   override def map[B](f: GFunction[A, B]): GList[B] = {
     val mappedValue = f(this.value)
     val mappedNext = this.next.map(f)
     mappedNext.prepend(mappedValue)
   }
-  
+
+  override def filter(p: GPredicate[A]): GList[A] = {
+    if (p.test(this.value)) {
+      val filteredNext = this.next.filter(p)
+      filteredNext.prepend(this.value)
+    } else {
+      this.next.filter(p)
+    }
+  }
+
   final override def forEach(f: GConsumer[A]): Unit = {
     f(this.value)
     this.next.forEach(f)
@@ -87,10 +92,12 @@ case object EmptyList extends GList[Nothing] {
   override def tail: GList[Nothing] = throw new NoSuchElementException("tail of empty list")
 
   override def prepend[B >: Nothing](elem: B): SequencedList[B] = SequencedList(elem)
-  
+
   override def map[B](f: GFunction[Nothing, B]): GList[B] = this
-  
+
   override def forEach(f: GConsumer[Nothing]): Unit = ()
+
+  override def filter(p: GPredicate[Nothing]): GList[Nothing] = this
 }
 
 case class EmptyNodeException(message: String) extends Exception(message)

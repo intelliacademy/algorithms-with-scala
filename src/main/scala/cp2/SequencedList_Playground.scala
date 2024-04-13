@@ -11,6 +11,7 @@ object SequencedList_Playground extends App{
     list = list.prepend(i)
   }
 
-  list.map((x: Int) => x * 2)
+  list.map((x: Int) => x * 3)
+    .filter((x: Int) => x % 2 == 0)
     .forEach((x: Int) => println(x))
 }
