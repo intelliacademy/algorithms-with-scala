@@ -7,9 +7,9 @@ trait GPredicate[-A] {
   //def and[B <: A](that: GPredicate[B]): GPredicate[A] = (a: A) => this.test(a) && that.test(a)
 }
 
-trait GFunction[-A, +B] {
+trait GFunction[-A, B] {
   def map(a: A): B
-  //def andThen[A, B, C](g: GFunction[B, C]): GFunction[A, C] = (a: A) => g.map(this.map(a))
+  def andThen[C](that: GFunction[B, C]): GFunction[A, C] = (a: A) => that.map(this.map(a))
 }
 
 
@@ -92,3 +92,4 @@ case object EmptyList extends GList[Nothing] {
 }
 
 case class EmptyNodeException(message: String) extends Exception(message)
+
