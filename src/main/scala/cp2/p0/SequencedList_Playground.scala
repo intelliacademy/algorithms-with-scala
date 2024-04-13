@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package cp2
+package cp2.p0
 
 object SequencedList_Playground extends App{
 

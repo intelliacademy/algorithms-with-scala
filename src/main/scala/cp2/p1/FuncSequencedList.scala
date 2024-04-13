@@ -1,7 +1,5 @@
 package com.intellibucket.lessons
-package cp2
-
-
+package cp2.p1
 
 trait FuncGList[+A] {
   def isEmpty: Boolean
@@ -10,6 +8,7 @@ trait FuncGList[+A] {
   def prepend[B >: A](elem: B): FuncSequencedList[B]
   def filter(p: A => Boolean): FuncGList[A]
   def map[B](f: A => B): FuncGList[B]
+  def flatMap[B](f: A => FuncGList[B]): FuncGList[B]
   def forEach(f: A => Unit): Unit
 }
 
@@ -35,6 +34,12 @@ case class FuncSequencedList[+A](value: A,next: FuncGList[A]) extends FuncGList[
     mappedNext.prepend(mappedValue)
   }
 
+  override def flatMap[B](f: A => FuncGList[B]): FuncGList[B] = {
+    val mappedValue = f(this.value)
+    val mappedNext = this.next.flatMap(f)
+    mappedNext.prepend(mappedValue.head)
+  }
+
   override def filter(p: A => Boolean): FuncGList[A] = {
     if (p(this.value)) {
       val filteredNext = this.next.filter(p)
@@ -52,8 +57,11 @@ case class FuncSequencedList[+A](value: A,next: FuncGList[A]) extends FuncGList[
 }
 
 case object FuncSequencedList {
-  def apply[A]: FuncSequencedList[A] = EmptyList.asInstanceOf[FuncSequencedList[A]]
+  def apply[A]: FuncSequencedList[A] = new FuncSequencedList[A]
   def apply[A](value: A): FuncSequencedList[A] = new FuncSequencedList(value)
+  def apply[A](list: List[A]): FuncSequencedList[A] = {
+    list.foldRight(FuncSequencedList[A])((elem, acc) => acc.prepend(elem))
+  }
 }
 
 case object FuncEmptyList extends FuncGList[Nothing] {
@@ -66,6 +74,8 @@ case object FuncEmptyList extends FuncGList[Nothing] {
   override def prepend[B >: Nothing](elem: B): FuncSequencedList[B] = FuncSequencedList(elem)
 
   override def map[B](f: Nothing => B): FuncGList[B] = this
+
+  override def flatMap[B](f: Nothing => FuncGList[B]): FuncGList[B] = this
 
   override def forEach(f: Nothing => Unit): Unit = ()
 

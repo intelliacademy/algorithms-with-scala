@@ -1,5 +1,4 @@
-package com.intellibucket.lessons
-package cp2
+package com.intellibucket.lessons.cp2.p0
 
 trait GPredicate[-A] {
   def test(a: A): Boolean
