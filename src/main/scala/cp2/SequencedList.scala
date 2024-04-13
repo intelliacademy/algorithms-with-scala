@@ -3,31 +3,22 @@ package cp2
 
 trait GPredicate[-A] {
   def test(a: A): Boolean
-}
-
-object GPredicate {
-  def and[A](p1: GPredicate[A], p2: GPredicate[A]): GPredicate[A] =
-    (a: A) => p1.test(a) && p2.test(a)
-
-  def or[A](p1: GPredicate[A], p2: GPredicate[A]): GPredicate[A] =
-    (a: A) => p1.test(a) || p2.test(a)
+  //def or[B <: A](that: GPredicate[B]): GPredicate[A] = (a: A) => this.test(a) || that.test(a)
+  //def and[B <: A](that: GPredicate[B]): GPredicate[A] = (a: A) => this.test(a) && that.test(a)
 }
 
 trait GFunction[-A, +B] {
-  def apply(a: A): B
+  def map(a: A): B
+  //def andThen[A, B, C](g: GFunction[B, C]): GFunction[A, C] = (a: A) => g.map(this.map(a))
 }
 
-object GFunction {
-  def andThan[A, B, C](f: GFunction[A, B], g: GFunction[B, C]): GFunction[A, C] =
-    (a: A) => g(f(a))
-}
 
 trait GConsumer[-A] {
   def apply(a: A): Unit
-}
-
-object GConsumer {
-  def apply[A](f: A => Unit): GConsumer[A] = (a: A) => f(a)
+//  def andThen[B <: A](that: GConsumer[B]): GConsumer[A] = (a: A) => {
+//    this(a)
+//    that(a)
+//  }
 }
 
 
@@ -58,7 +49,7 @@ case class SequencedList[+A](value: A,next: GList[A]) extends GList[A] {
   override def prepend[B >: A](elem: B): SequencedList[B] = SequencedList(elem, this)
 
   override def map[B](f: GFunction[A, B]): GList[B] = {
-    val mappedValue = f(this.value)
+    val mappedValue = f.map(this.value)
     val mappedNext = this.next.map(f)
     mappedNext.prepend(mappedValue)
   }
