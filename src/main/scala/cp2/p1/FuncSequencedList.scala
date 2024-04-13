@@ -1,25 +1,6 @@
 package com.intellibucket.lessons
 package cp2
 
-trait FuncGPredicate[-A] {
-  def test(a: A): Boolean
-  //def or[B <: A](that: GPredicate[B]): GPredicate[A] = (a: A) => this.test(a) || that.test(a)
-  //def and[B <: A](that: GPredicate[B]): GPredicate[A] = (a: A) => this.test(a) && that.test(a)
-}
-
-trait FuncGFunction[-A, B] {
-  def map(a: A): B
-  def andThen[C](that: FuncGFunction[B, C]): FuncGFunction[A, C] = (a: A) => that.map(this.map(a))
-}
-
-
-trait FuncGConsumer[-A] {
-  def apply(a: A): Unit
-//  def andThen[B <: A](that: GConsumer[B]): GConsumer[A] = (a: A) => {
-//    this(a)
-//    that(a)
-//  }
-}
 
 
 trait FuncGList[+A] {
@@ -27,9 +8,9 @@ trait FuncGList[+A] {
   def head: A
   def tail: FuncGList[A]
   def prepend[B >: A](elem: B): FuncSequencedList[B]
-  def filter(p: FuncGPredicate[A]): FuncGList[A]
-  def map[B](f: FuncGFunction[A, B]): FuncGList[B]
-  def forEach(f: FuncGConsumer[A]): Unit
+  def filter(p: A => Boolean): FuncGList[A]
+  def map[B](f: A => B): FuncGList[B]
+  def forEach(f: A => Unit): Unit
 }
 
 case class FuncSequencedList[+A](value: A,next: FuncGList[A]) extends FuncGList[A] {
@@ -48,14 +29,14 @@ case class FuncSequencedList[+A](value: A,next: FuncGList[A]) extends FuncGList[
 
   override def prepend[B >: A](elem: B): FuncSequencedList[B] = FuncSequencedList(elem, this)
 
-  override def map[B](f: FuncGFunction[A, B]): FuncGList[B] = {
-    val mappedValue = f.map(this.value)
+  override def map[B](f: A => B): FuncGList[B] = {
+    val mappedValue = f(this.value)
     val mappedNext = this.next.map(f)
     mappedNext.prepend(mappedValue)
   }
 
-  override def filter(p: FuncGPredicate[A]): FuncGList[A] = {
-    if (p.test(this.value)) {
+  override def filter(p: A => Boolean): FuncGList[A] = {
+    if (p(this.value)) {
       val filteredNext = this.next.filter(p)
       filteredNext.prepend(this.value)
     } else {
@@ -63,7 +44,7 @@ case class FuncSequencedList[+A](value: A,next: FuncGList[A]) extends FuncGList[
     }
   }
 
-  final override def forEach(f: FuncGConsumer[A]): Unit = {
+  final override def forEach(f: A => Unit): Unit = {
     f(this.value)
     this.next.forEach(f)
   }
@@ -84,11 +65,11 @@ case object FuncEmptyList extends FuncGList[Nothing] {
 
   override def prepend[B >: Nothing](elem: B): FuncSequencedList[B] = FuncSequencedList(elem)
 
-  override def map[B](f: FuncGFunction[Nothing, B]): FuncGList[B] = this
+  override def map[B](f: Nothing => B): FuncGList[B] = this
 
-  override def forEach(f: FuncGConsumer[Nothing]): Unit = ()
+  override def forEach(f: Nothing => Unit): Unit = ()
 
-  override def filter(p: FuncGPredicate[Nothing]): FuncGList[Nothing] = this
+  override def filter(p: Nothing => Boolean): FuncGList[Nothing] = this
 }
 
 case class FuncEmptyNodeException(message: String) extends Exception(message)
