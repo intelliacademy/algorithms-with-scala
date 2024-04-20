@@ -24,7 +24,6 @@ object FuncSequencedList_Playground extends App{
     (x: Int) => (y: Int) => (z: Int) => x + y + z
 
   list
-    //.flatMap(list2)
     .map(specialFunction(1)(2)(_))
     .map(_ * 3)
     .forEach((x: Int) => println(x))
