@@ -21,5 +21,19 @@ object HigherOrderedFunctions_Playground extends App {
     else nTimesExecutingFunction(f, n - 1, f(x))
   }
 
+
+  private def nTimesBetterFunction(f: Int => Int, n: Int): Int => Int = {
+    if (n <= 0) (x: Int) => x
+    else (x: Int) => nTimesBetterFunction(f, n - 1)(f(x))
+  }
+
   println(nTimesExecutingFunction(x => x + 1, 10, 1))
+  var res: Int => Int = nTimesBetterFunction(x => x + 1, 10);
+  println(res(1))
+  
+  //curried functions
+  var currierFunction0 : Int => (Int => Int) = (a: Int) => (b: Int) => a + b
+  var currierFunction1 : Int => Int => Int = (a: Int) => (b: Int) => a + b
+  var resCurrierFunction0 = currierFunction0(5) // y = 5 + y
+  println(resCurrierFunction0(2))
 }
