@@ -16,6 +16,13 @@ object FunctionalProgramming_Playground extends App {
       }
     }
   }
+  
+  var lambdaFunc1: Int => Int = x => x + 1
+  var lambdaFunc2: (Int, Int) => Int = (x, y) => x + y
+  var lambdaFunc3: (Int, Int, Int) => Int = (x, y, z) => x + y + z
+  
+  var lambdaFunc4 = (x: Int, y: Int) => x + y
+  println(lambdaFunc1(5))
 
   println(supFunction(5)(6)(4))
 
