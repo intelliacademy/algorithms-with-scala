@@ -22,6 +22,20 @@ object FunctionalProgramming_Playground extends App {
   var lambdaFunc3: (Int, Int, Int) => Int = (x, y, z) => x + y + z
   
   var lambdaFunc4 = (x: Int, y: Int) => x + y
+  
+  
+  var noParamsLambda = () => println("No Params")
+  
+  
+  var curlyBraceLambda = {
+    (str: String) => println(str) 
+  }
+  
+  //MOAR syntactic sugar
+  var lambdaFunc5 = (x: Int) => x + 1
+  var moarSyntaxSugar: Int => Int = _ + 1
+  var moadAdder: (Int, Int) => Int = _ + _
+  
   println(lambdaFunc1(5))
 
   println(supFunction(5)(6)(4))
