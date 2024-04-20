@@ -36,6 +36,11 @@ object FunctionalProgramming_Playground extends App {
   var moarSyntaxSugar: Int => Int = _ + 1
   var moadAdder: (Int, Int) => Int = _ + _
   
+  //Currying
+  var adder2 = (x: Int) => (y: Int) => x + y
+  println(adder2(5)(6))
+  
+  
   println(lambdaFunc1(5))
 
   println(supFunction(5)(6)(4))
