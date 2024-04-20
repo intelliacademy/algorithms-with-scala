@@ -38,9 +38,9 @@ object HigherOrderedFunctions_Playground extends App {
   println(resCurrierFunction0(2))
 
 
-  def currentFormatter(format: String)(number: Double): String = format.format(number)
-  val standardFormatter: Double => String = currentFormatter("%4.2f")
-  val preciseFormatter: Double => String = currentFormatter("%10.8f")
+  def curriedFormatter(format: String)(number: Double): String = format.format(number)
+  val standardFormatter: Double => String = curriedFormatter("%4.2f")
+  val preciseFormatter: Double => String = curriedFormatter("%10.8f")
 
   println(s"Standard Formatter: ${standardFormatter(Math.PI)}")
   println(s"Precise Formatter: ${preciseFormatter(Math.PI)}")
