@@ -1,5 +1,6 @@
 package com.intellibucket.lessons
-package cp0
+package lessons.intro
+
 
 object Enums_Playground extends App{
 

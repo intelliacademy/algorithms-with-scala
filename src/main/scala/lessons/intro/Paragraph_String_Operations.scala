@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package cp0
+package lessons.intro
 
 object Paragraph_String_Operations extends App {
   var str: String = "Hello, World!, I am a string and I am a sequence of characters"

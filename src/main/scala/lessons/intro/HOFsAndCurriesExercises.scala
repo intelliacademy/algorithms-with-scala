@@ -1,5 +1,6 @@
 package com.intellibucket.lessons
-package cp0
+package lessons.intro
+
 
 object HOFsAndCurriesExercises extends App {
   println("HOFs and Curries Exercises")

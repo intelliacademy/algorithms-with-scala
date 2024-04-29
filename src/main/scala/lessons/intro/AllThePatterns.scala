@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package cp0
+package lessons.intro
 
 object AllThePatterns extends App{
 
