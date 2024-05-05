@@ -1,13 +1,15 @@
 package com.intellibucket.lessons
 package lessons.advanced
 
+import scala.+:
+
 object AdvancePatternMatching_2 extends App {
   println("Advance Pattern Matching 2")
   println()
 
   var singleItemList = List(1)
   var twoItemList = List(1,2)
-  var multiItemList = List(1,2,3,4,5)
+  var multiItemList = List(4,2,3,4,5)
 
   var result = singleItemList match
     case head :: Nil => s"This is single item list"
@@ -40,5 +42,37 @@ object AdvancePatternMatching_2 extends App {
     case number Or string => s"$number is $string as string"
     //case Or(number,string) => s"$number is $string as string"
 
-  println(result3)
+  //println(result3)
+
+  var result4 = multiItemList match
+    case List(1,2,_*)=>s"List starting with 1 and 2"
+    case list => s"list  not start with 1 and 2 , this is $list"
+
+  //println(result4)
+
+  abstract class XSeq[+A]{
+    def head:A = ???
+    def tail:XSeq[A] = ???
+  }
+  case object EmptyXSeq$ extends XSeq[Nothing]
+
+  object XSeq{
+    def empty: XSeq[Nothing] = EmptyXSeq$
+
+     def unapplySeq[A](arg: XSeq[A]): Option[Seq[A]] = {
+      if (arg == EmptyXSeq$ ) Some(Seq.empty)
+      else unapplySeq(arg.tail).map(arg.head +: _)
+    }
+  }
+
+  case class ConXSeq[+A](override val head:A, override val tail:XSeq[A]) extends XSeq[A]
+
+
+  val myList:XSeq[Int] = ConXSeq(1,ConXSeq(2,ConXSeq(3,ConXSeq(4,XSeq.empty))))
+
+  var resultOfMyList = myList match
+    case XSeq(1,2,_*)=>s"Start with 1,2"
+    case list => s"else ${list}"
+
+  println(resultOfMyList)
 }
