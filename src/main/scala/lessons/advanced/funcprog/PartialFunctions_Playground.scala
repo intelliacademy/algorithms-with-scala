@@ -29,7 +29,10 @@ object PartialFunctions_Playground extends App {
 
   println(result)
   println(aPartialFunction.isDefinedAt(99))
+  
+  //Turns this partial function into a plain function returning an Option result.
   var liftedFunc = aPartialFunction.lift
+  
   println(s"lifted value 1 match ${liftedFunc(1).getOrElse(100)}")
   println(s"lifted value 99 match ${liftedFunc(99).getOrElse(101)}")
 
