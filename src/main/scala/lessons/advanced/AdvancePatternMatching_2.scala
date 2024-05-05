@@ -20,6 +20,7 @@ object AdvancePatternMatching_2 extends App {
 
   var result2 = twoItemList match
     case head :: Nil => s"This is single item list"
+    //case ::(head,Nil) => s"This is single item list" // equivalent is head :: Nil
     case head :: 2 :: Nil => s"This is only two item list"
     case _ => s"This is multi item list"
 
