@@ -41,4 +41,30 @@ object PartialFunctions_Playground extends App {
   })
 
   println(s"Or Else Partial Function ${chainPFunction(99)}")
+
+  println()
+
+  val aTotalFunction: Int => Int = {
+    case 1 => 111
+    case 2 => 222
+    case 3 => 333
+  }
+
+  var multiplyPFunction: PartialFunction[Int,Int] = {
+    case a if a < 30  => a * 10
+  }
+
+  var chainPfFunction:Int => Int = multiplyPFunction.orElse({
+    case b if b >= 3 => b * 20
+  })
+
+  val mappedList = List(1,2,3,4,5).map({
+    case 1 => 10
+    case 2 => 20
+    case x => x * 10
+  }).map(chainPfFunction)
+
+  println(s"Mapped list $mappedList")
+
+
 }
