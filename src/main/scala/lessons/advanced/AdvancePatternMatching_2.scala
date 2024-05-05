@@ -21,7 +21,7 @@ object AdvancePatternMatching_2 extends App {
     case head :: 2 :: Nil => s"This is only two item list"
     case _ => s"This is multi item list"
 
-  println(result2)
+  //println(result2)
 
   def calculateLength[A](list: List[A]):Int = {
     list match
@@ -29,5 +29,16 @@ object AdvancePatternMatching_2 extends App {
       case head :: tail => 1 + calculateLength(tail)
   }
 
-  println(calculateLength(multiItemList))
+  //println(calculateLength(multiItemList))
+
+
+  //infix pattern
+
+  case class Or[A,B](a: A,b: B)
+  val orValue = Or(2,"Two")
+  var result3 = orValue match
+    case number Or string => s"$number is $string as string"
+    //case Or(number,string) => s"$number is $string as string"
+
+  println(result3)
 }
