@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package lessons.advanced
+package lessons.advanced.taste
 
 object AdvancePatternMatching_1 extends App {
   println("Advance Pattern Matching 1")

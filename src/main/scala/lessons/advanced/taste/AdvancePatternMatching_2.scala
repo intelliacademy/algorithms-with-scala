@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package lessons.advanced
+package lessons.advanced.taste
 
 import scala.+:
 
