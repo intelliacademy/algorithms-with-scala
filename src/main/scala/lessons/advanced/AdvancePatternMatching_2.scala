@@ -74,5 +74,27 @@ object AdvancePatternMatching_2 extends App {
     case XSeq(1,2,_*)=>s"Start with 1,2"
     case list => s"else ${list}"
 
-  println(resultOfMyList)
+  //println(resultOfMyList)
+
+  case class Person(name:String)
+
+  abstract class Wrapper[T]:
+    def isEmpty:Boolean
+    def get:T
+  end Wrapper
+
+  object PersonWrapper{
+    def unapply(arg: Person): Wrapper[String] = new Wrapper[String]:
+      override def get: String = arg.name
+
+      override def isEmpty: Boolean = false
+  }
+
+  val exPerson = Person("Vugar")
+
+  var personWrapperResult = exPerson match
+    case PersonWrapper(va1)=>s"Person name is $va1"
+    case _ => "else"
+
+  println(personWrapperResult)
 }
