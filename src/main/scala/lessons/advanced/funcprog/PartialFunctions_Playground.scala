@@ -67,4 +67,23 @@ object PartialFunctions_Playground extends App {
   println(s"Mapped list $mappedList")
 
 
+  case class CustomPartialFunction() extends PartialFunction[Int,Int]:
+    override def apply(v1: Int): Int = v1 match
+      case 1 => 10
+      case 2 => 20
+      case x => x * 100
+
+    override def isDefinedAt(x: Int): Boolean = {
+      this.productElementNames.exists((y:String) => y.equals(x))
+    }
+  end CustomPartialFunction
+  case object CustomPartialFunction
+
+  println("Write something")
+  scala.io.Source
+    .stdin
+    .getLines()
+    .foreach(line => print(s"You said: ${CustomPartialFunction()(line.toInt)}"))
+  println("Okey")
+
 }
