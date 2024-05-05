@@ -1,7 +1,6 @@
-package com.intellibucket.lessons
-package cp1
+package com.intellibucket.lessons.cp1
 
-import cp1.concretes.BinarySearchTree
+import concretes.BinarySearchTree
 
 import scala.language.postfixOps
 

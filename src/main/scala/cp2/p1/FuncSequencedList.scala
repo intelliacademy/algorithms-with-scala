@@ -19,7 +19,7 @@ case class FuncSequencedList[+A](value: A,next: FuncGList[A]) extends FuncGList[
   def this() = this(null.asInstanceOf[A], FuncEmptyList)
 
   def this(next: FuncGList[A]) = this(null.asInstanceOf[A], next)
-
+  
   override def isEmpty: Boolean = false
 
   override def head: A = this.value
