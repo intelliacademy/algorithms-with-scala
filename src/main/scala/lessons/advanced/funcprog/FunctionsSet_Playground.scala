@@ -111,7 +111,6 @@ object MySet:
 end MySet
 
 
-
 class EmptyMySet[A] extends MySet[A]:
 
   @targetName("remove")
