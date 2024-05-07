@@ -1,6 +1,8 @@
 package com.intellibucket.lessons
 package lessons.advanced.funcprog
 
+import scala.annotation.tailrec
+
 object FunctionsSet_Playground extends App {
   println()
   println("Function Sets")
@@ -56,6 +58,13 @@ object FunctionsSet_Playground extends App {
 
   object ConsSet:
     def apply[A](a: A, mySet: MySet[A]) : MySet[A] = new ConsSet[A](a,mySet)
+    def apply[A](args: A*) : MySet[A] = {
+      @tailrec def build(valSeq: Set[A], acc: MySet[A]): MySet[A] = {
+        if (valSeq.isEmpty) then return acc
+        build(valSeq.tail,acc + valSeq.head)
+      }
+      build(args.toSet,new EmptyMySet[A])
+    }
   end ConsSet
 
 
