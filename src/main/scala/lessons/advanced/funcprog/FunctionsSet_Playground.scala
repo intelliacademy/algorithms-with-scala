@@ -10,8 +10,8 @@ object FunctionsSet_Playground extends App {
 
   trait MySet[A] extends (A => Boolean):
     override def apply(v1: A): Boolean = contains(v1)
-    def contains(a: A): Boolean
-    def +(a: A): MySet[A]
+    def contains(value: A): Boolean
+    def +(value: A): MySet[A]
     def ++[B <: A](other: MySet[B]): MySet[A]
     def map[B](f: A => B): MySet[B]
     def flatMap[B,C <: A](f: C => MySet[B]): MySet[B]
@@ -19,12 +19,22 @@ object FunctionsSet_Playground extends App {
     def foreach[B <: A](consumer: B => Unit): Unit
   end MySet
 
-  class ConsSet[A](val a:A, mySet: MySet[A]) extends MySet[A]:
-    override def +(a: A): MySet[A] = ???
+  class ConsSet[A](val head:A, tail: MySet[A]) extends MySet[A]:
+
+    override def +(value: A): MySet[A] =
+      if (this contains value) this
+      else ConsSet(value,this.tail)
 
     override def flatMap[B, C <: A](f: C => MySet[B]): MySet[B] = ???
 
-    override def ++[B <: A](other: MySet[B]): MySet[A] = ???
+    /*
+    [1,2,3] ++ [4,5,6] =
+    [1,2] ++ [4,5,6] + 3 =>
+    [1] ++ [4,5,6] + 3 + 2 =>
+    [] ++ [4,5,6] + 3 + 2 + 1 =>
+    [1,2,3,4,5,6]
+     */
+    override def ++[B <: A](other: MySet[B]): MySet[A] = this.tail ++ other + this.head
 
     override def foreach[B <: A](consumer: B => Unit): Unit = ???
 
@@ -32,10 +42,13 @@ object FunctionsSet_Playground extends App {
 
     override def filter[B <: A](filter: B => Boolean): MySet[B] = ???
 
-    override def contains(a: A): Boolean = ???
+    override def contains(a: A): Boolean = a == this.head || this.contains(a)
   end ConsSet
 
-  object ConsSet
+  object ConsSet:
+    def apply[A](a: A, mySet: MySet[A]) : MySet[A] = new ConsSet[A](a,mySet)
+  end ConsSet
+
 
   class EmptyMySet extends MySet[Nothing]:
     override def contains(a: Nothing): Boolean = false
