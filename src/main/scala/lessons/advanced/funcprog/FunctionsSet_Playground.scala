@@ -10,7 +10,7 @@ object FunctionsSet_Playground extends App {
   println()
 
   var values = MySet(1, 2, 3, 4, 5)
-  values + 5 ++ MySet(1,2,3) + 4 + 4 foreach println
+  values + 5 ++ MySet(1,2,3) + 4 + 4 map (x =>x * 3) filter (x => x % 2 != 0) flatMap (x => MySet(x + 1,x + 2)) foreach println
 
 }
 trait MySet[A] extends (A => Boolean):
@@ -54,8 +54,8 @@ class ConsSet[A](val head:A, tail: MySet[A]) extends MySet[A]:
 
   override def filter(predicate: A => Boolean): MySet[A]  =
     val filteredTail = this.tail filter predicate
-    if (predicate(head)) then (filteredTail + head)
-    filteredTail
+    if (predicate(head)) filteredTail + head
+    else filteredTail
   end filter
 
 
