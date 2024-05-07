@@ -14,7 +14,7 @@ object FunctionsSet_Playground extends App {
     def +(value: A): MySet[A]
     def ++[B <: A](other: MySet[B]): MySet[A]
     def map[B](f: A => B): MySet[B]
-    def flatMap[B,C <: A](f: C => MySet[B]): MySet[B]
+    def flatMap[B](f: A => MySet[B]): MySet[B]
     def filter[B <: A](filter: B => Boolean): MySet[B]
     def foreach[B <: A](consumer: B => Unit): Unit
   end MySet
@@ -25,7 +25,7 @@ object FunctionsSet_Playground extends App {
       if (this contains value) this
       else ConsSet(value,this.tail)
 
-    override def flatMap[B, C <: A](f: C => MySet[B]): MySet[B] = ???
+    override def flatMap[B](f: A => MySet[B]): MySet[B] = (this.tail flatMap f) ++ f(this.head)
 
     /*
     [1,2,3] ++ [4,5,6] =
@@ -38,7 +38,8 @@ object FunctionsSet_Playground extends App {
 
     override def foreach[B <: A](consumer: B => Unit): Unit = ???
 
-    override def map[B](f: A => B): MySet[B] = ???
+    //Reconstruction
+    override def map[B](f: A => B): MySet[B] = (this.tail map f) + f(this.head)
 
     override def filter[B <: A](filter: B => Boolean): MySet[B] = ???
 
@@ -59,7 +60,7 @@ object FunctionsSet_Playground extends App {
 
     override def map[B](f: Nothing => B): MySet[B] = ???
     
-    override def flatMap[B, C <: Nothing](f: C => MySet[B]): MySet[B] = ???
+    override def flatMap[B](f: Nothing => MySet[B]): MySet[B] = ???
 
     override def foreach[B <: Nothing](consumer: B => Unit): Unit = ()
 
