@@ -12,12 +12,13 @@ object FunctionsSet_Playground extends App {
     override def apply(v1: A): Boolean = contains(v1)
     def contains(value: A): Boolean
     def +(value: A): MySet[A]
-    def ++[B <: A](other: MySet[B]): MySet[A]
+    def ++(other: MySet[A]): MySet[A]
     def map[B](f: A => B): MySet[B]
     def flatMap[B](f: A => MySet[B]): MySet[B]
-    def filter[B <: A](filter: B => Boolean): MySet[B]
-    def foreach[B <: A](consumer: B => Unit): Unit
+    def filter(filter: A => Boolean): MySet[A]
+    def foreach(consumer: A => Unit): Unit
   end MySet
+
 
   class ConsSet[A](val head:A, tail: MySet[A]) extends MySet[A]:
 
@@ -34,16 +35,23 @@ object FunctionsSet_Playground extends App {
     [] ++ [4,5,6] + 3 + 2 + 1 =>
     [1,2,3,4,5,6]
      */
-    override def ++[B <: A](other: MySet[B]): MySet[A] = this.tail ++ other + this.head
+    override def ++(other: MySet[A]): MySet[A] = this.tail ++ other + this.head
 
-    override def foreach[B <: A](consumer: B => Unit): Unit = ???
+    override def foreach(consumer: A => Unit): Unit =
+      consumer(head)
+      tail foreach consumer
 
     //Reconstruction
     override def map[B](f: A => B): MySet[B] = (this.tail map f) + f(this.head)
 
-    override def filter[B <: A](filter: B => Boolean): MySet[B] = ???
+    override def filter(predicate: A => Boolean): MySet[A]  = {
+      val filteredTail = this.tail filter predicate
+      if (predicate(head)) then (filteredTail + head)
+      filteredTail
+    }
 
     override def contains(a: A): Boolean = a == this.head || this.contains(a)
+
   end ConsSet
 
   object ConsSet:
@@ -51,20 +59,22 @@ object FunctionsSet_Playground extends App {
   end ConsSet
 
 
-  class EmptyMySet extends MySet[Nothing]:
-    override def contains(a: Nothing): Boolean = false
+  class EmptyMySet[A] extends MySet[A]:
 
-    override def +(a: Nothing): MySet[Nothing] = new ConsSet[Nothing](a,this)
+    override def contains(a: A): Boolean = false
 
-    override def ++[B <: Nothing](other: MySet[B]): MySet[Nothing] = other
+    override def +(a: A): MySet[A] = new ConsSet[A](a,this)
 
-    override def map[B](f: Nothing => B): MySet[B] = ???
+    override def ++(other: MySet[A]): MySet[A] = other
+
+    override def map[B](f: A => B): MySet[B] = new EmptyMySet[B]
     
-    override def flatMap[B](f: Nothing => MySet[B]): MySet[B] = ???
+    override def flatMap[B](f: A => MySet[B]): MySet[B] = new EmptyMySet[B]
 
-    override def foreach[B <: Nothing](consumer: B => Unit): Unit = ()
+    override def foreach(consumer: A => Unit): Unit = ()
 
-    override def filter[B <: Nothing](filter: B => Boolean): MySet[B] = ???
+    override def filter(filter: A => Boolean): MySet[A] = this
+
   end EmptyMySet
 
 
