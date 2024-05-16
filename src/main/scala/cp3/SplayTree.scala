@@ -1,27 +1,67 @@
 package com.intellibucket.lessons
 package cp3
 
-import cp1.Tree
+trait Tree[T : Ordering] {
+  def isEmpty: Boolean
 
+  def insert(x: T): Unit
 
-case class SplayTree[T <: Comparable[T]]() extends Tree[T]:
+  def contains(x: T): Boolean
+
+  def remove(x: T): Unit
+
+  def print: Unit
+}
+
+case class SplayTree[T: Ordering]() extends Tree[T]:
+  private val ord = implicitly[Ordering[T]]
+  
+  var root: Node[T] = _
+
   override def contains(x: T): Boolean = true
 
-  override def insert(x: T): Unit = {}
+  override def insert(x: T): Unit = {
+    if (root == null){
+      root = Node(x)
+    }
+  }
 
   override def remove(x: T): Unit = {}
 
   override def print: Unit = {}
 
   override def isEmpty: Boolean = true
+
+  private def rightRotate(x: Node[T]) : Node[T] = {
+    val y  = x.left
+    x setLeft y.right 
+    y setRight x
+    y
+  }
+
+
+  private def leftRotate(x: Node[T]): Node[T] = {
+    val y = x.right
+    x setRight y.left
+    y setLeft x
+    y
+  }
+  
 end SplayTree
 
-class Node[T <: Comparable[T]](var value:T,var left: Node[T],var right: Node[T]) extends Comparable[Node[T]]:
-  override def compareTo(o: Node[T]): Int = -1
+case class Node[T: Ordering](var value:T,var left: Node[T],var right: Node[T]):
+
+  def setLeft(node: Node[T]) : Unit = this.left = node
+  def setRight(node: Node[T]) : Unit = this.right = node
+
+end Node
+
+case object Node :
+  def apply[T](value: T)(using ordering$T$0: Ordering[T]): Node[T] = new Node[T](value,null,null)
 end Node
 
 
-class Nil[T <: Comparable[T]] extends Node[T](null.asInstanceOf[T],null,null):
+class Nil[T: Ordering] extends Node[T](null.asInstanceOf[T],null,null):
 end Nil
 
 object Nil:

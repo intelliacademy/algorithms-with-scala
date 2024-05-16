@@ -9,7 +9,7 @@ object SplayTree_Playground extends App {
   
   println("SplayTree")
 
-  var tree: Tree[Person] =  new SplayTree[Person]
+  var tree: SplayTree[Person] =  new SplayTree[Person]
 
   var personArrays = Array(
     new Person("A", 10),
