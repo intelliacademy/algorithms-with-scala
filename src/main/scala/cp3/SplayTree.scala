@@ -15,7 +15,7 @@ trait Tree[T : Ordering] {
 
 case class SplayTree[T: Ordering]() extends Tree[T]:
   private val ord = implicitly[Ordering[T]]
-  
+
   var root: Node[T] = _
 
   override def contains(x: T): Boolean = true
@@ -23,6 +23,8 @@ case class SplayTree[T: Ordering]() extends Tree[T]:
   override def insert(x: T): Unit = {
     if (root == null){
       root = Node(x)
+    }else {
+      this.root.insert(x)
     }
   }
 
@@ -34,11 +36,10 @@ case class SplayTree[T: Ordering]() extends Tree[T]:
 
   private def rightRotate(x: Node[T]) : Node[T] = {
     val y  = x.left
-    x setLeft y.right 
+    x setLeft y.right
     y setRight x
     y
   }
-
 
   private def leftRotate(x: Node[T]): Node[T] = {
     val y = x.right
@@ -46,10 +47,17 @@ case class SplayTree[T: Ordering]() extends Tree[T]:
     y setLeft x
     y
   }
-  
+
 end SplayTree
 
 case class Node[T: Ordering](var value:T,var left: Node[T],var right: Node[T]):
+
+  def insert(value: T): Unit ={
+    var node = Node(value)
+
+
+  }
+
 
   def setLeft(node: Node[T]) : Unit = this.left = node
   def setRight(node: Node[T]) : Unit = this.right = node
