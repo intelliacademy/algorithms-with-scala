@@ -1,10 +1,15 @@
-package com.intellibucket.lessons.cp1
+package com.intellibucket.lessons
+package cp3
 
-import concretes.BinarySearchTree
+import cp1.{Person, Tree}
 
 import scala.language.postfixOps
 
-object BinarySearchTree_Playground extends App {
+object SplayTree_Playground extends App {
+  
+  println("SplayTree")
+
+  var tree: Tree[Person] =  new SplayTree[Person]
 
   var personArrays = Array(
     new Person("A", 10),
@@ -19,17 +24,9 @@ object BinarySearchTree_Playground extends App {
     new Person("J", 100)
   )
 
-  var binarySearchTree = new BinarySearchTree[Person]()
-
   for (person <- personArrays) {
-    binarySearchTree.insert(person)
+    tree.insert(person)
   }
 
-  binarySearchTree print
-
-
-
-
+  tree print
 }
-
-

@@ -1,20 +1,10 @@
 package com.intellibucket.lessons
 package cp1.concretes
 
+import com.intellibucket.lessons.cp1.Tree
+
 import java.lang.Comparable
 import scala.annotation.{tailrec, targetName}
-
-trait Tree[T <: Comparable[T]] {
-  def isEmpty: Boolean
-
-  def insert(x: T): Unit
-
-  def contains(x: T): Boolean
-
-  def remove(x: T): Unit
-
-  def print: Unit
-}
 
 class BinarySearchTree[T <: Comparable[T]] extends Tree[T]{
   var root: Node[T] = NilNode[T]
