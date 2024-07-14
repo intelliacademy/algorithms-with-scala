@@ -36,3 +36,11 @@ build/
 
 ### Mac OS ###
 .DS_Store
+
+*.class
+*.tasty
+*.scala.semanticdb
+metals.sbt
+.metals/
+.metals.bsp
+.bloop/
