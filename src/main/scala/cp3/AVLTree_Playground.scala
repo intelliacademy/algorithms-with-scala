@@ -3,6 +3,7 @@ package cp3
 
 
 object AVLTree_Playground extends App :
+  println("AVL Tree Playground")
   val tree = new AVLTree[Int]()
   tree.insert(15)
   tree.insert(5)

@@ -19,7 +19,7 @@ case class AVLTree[T: Ordering]() extends Tree[T]:
 
   var root: Node[T] = _
 
-  override def contains(x: T): Boolean = true
+  override def contains(x: T): Boolean = false
 
   override def insert(x: T): Unit = {
     if (root == null){
