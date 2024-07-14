@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package cp3
+package cp6
 
 import cp1.{Person, Tree}
 

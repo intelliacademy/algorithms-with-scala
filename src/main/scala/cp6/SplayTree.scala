@@ -1,5 +1,5 @@
 package com.intellibucket.lessons
-package cp3
+package cp6
 
 trait Tree[T : Ordering] {
   def isEmpty: Boolean
