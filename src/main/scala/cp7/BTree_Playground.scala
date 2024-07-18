@@ -1,15 +1,12 @@
 package com.intellibucket.lessons
-package cp6
+package cp7
 
-import cp1.{Person, Tree}
+import cp1.Person
 
-import scala.language.postfixOps
-
-object SplayTree_Playground extends App {
-  
+object BTree_Playground extends App {
   println("SplayTree")
 
-  var tree: SplayTree[Person] =  new SplayTree[Person]
+  var tree: Tree[Person] =  new BTree[Person]
 
   var personArrays = Array(
     new Person("A", 10),
@@ -28,5 +25,5 @@ object SplayTree_Playground extends App {
     tree.insert(person)
   }
 
-  tree print
+  tree
 }
